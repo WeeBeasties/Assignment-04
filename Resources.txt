@@ -1,0 +1,69 @@
+===========================================================
+===   STARTER CODE RESOURCES FOR BIOL390 ASSIGNMENT 3   ===
+===   Copy and paste these into your assignment.        ===
+===   Add appropriate comments to document your work.   ===
+===========================================================
+
+===FIRST CHUNK TO STYLE CAPTIONS WITH CSS=========
+```{css, echo = FALSE}
+caption {
+      color: black;
+    }
+```
+
+
+===CODE FOR SETUP CHUNK=========
+library(tidyverse)
+library(lattice)
+library(kableExtra)
+knitr::opts_chunk$set(echo = FALSE)
+
+
+===CODE FOR DATA CHUNK=========
+data <- read_csv("https://www.zoology.ubc.ca/~whitlock/ABD/teaching/datasets/03/03e3SticklebackPlates.csv")
+names(data) <- c("Genotype", "Plates")
+
+
+===CODE FOR IMAGE CHUNK=========
+knitr::include_graphics("https://www.researchgate.net/profile/Windsor_Aguirre/publication/285915049/figure/fig2/AS:318190618988545@1452873963743/Lateral-plate-morphs-of-Gasterosteus-aculeatus-A-low-B-partial-C-complete-From_W640.jpg")
+
+
+===CODE FOR HISTOGRAM CHUNK=========
+histogram(~ Plates | Genotype, 
+		  data = data, 
+		  breaks = seq(0,70,by=2),
+		  layout = c(1, 3), 
+		  col = "firebrick")
+
+
+===CODE FOR DESCRIPTIVE STATISTICS CHUNK=========
+knitr::kable(data %>% group_by(Genotype) %>% summarize(N = n(), 
+			 			  Mean = mean(Plates), 
+			 			  Median = median(Plates), 
+			 			  StdDev = sd(Plates)), 
+			 align = c('l','c','c','c','c'), 
+			 digits = 2,
+			 format = "html", 
+			 caption = "PUT YOUR CAPTION HERE",
+			 table.attr = "style='width:70%;'") %>% kable_styling(position = "center")
+
+
+===CODE FOR BOXPLOT CHUNK=========
+ggplot(data, aes(x=Genotype, y=Plates, fill="firebrick")) + 
+	geom_boxplot(outlier.colour="black", outlier.size=3) + 
+	ylim(0,80) + 
+	guides(fill=FALSE, color=FALSE) +
+	theme_bw()
+
+
+===CODE FOR ANOVA CHUNK=========
+knitr::kable(anova(lm(Plates ~ Genotype, data = data)),
+			 digits = 3, 
+			 format = "html", 
+			 caption = "PUT YOUR CAPTION HERE,
+			 table.attr = "style='width:70%;'") %>% kable_styling(position = "center")
+
+
+===REFERENCE=========
+Colosimo, P. F., Peichel, C. L., Nereng, K., Blackman, B. K., Shapiro, M. D., Schluter, D., & Kingsley, D. M. (2004). The Genetic Architecture of Parallel Armor Plate Reduction in Threespine Sticklebacks. PLoS Biology, 2(5), e109. https://doi.org/10.1371/journal.pbio.0020109
+
