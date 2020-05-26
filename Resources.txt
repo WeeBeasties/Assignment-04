@@ -4,19 +4,19 @@
 ===   Add appropriate comments to document your work.   ===
 ===========================================================
 
-===FIRST CHUNK TO STYLE CAPTIONS WITH CSS=========
-```{css, echo = FALSE}
-caption {
-      color: black;
-    }
-```
-
-
 ===CODE FOR SETUP CHUNK=========
 library(tidyverse)
 library(lattice)
 library(kableExtra)
 knitr::opts_chunk$set(echo = FALSE)
+
+
+===CHUNK TO STYLE CAPTIONS WITH CSS=========
+```{css, echo = FALSE}
+caption {
+      color: black;
+    }
+```
 
 
 ===CODE FOR DATA CHUNK=========
