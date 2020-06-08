@@ -1,0 +1,124 @@
+---
+title: "BIOL390: Assignment 3"
+author: "Mitch Lueken"
+date: "`r format(Sys.time(), '%B %d, %Y')`"
+output:
+  html_document: default
+  pdf_document: default
+---
+
+```{R, lieberry, echo = FALSE, results = 'hide', message = FALSE, warnings = FALSE}
+library(tidyverse)
+library(lattice)
+library(kableExtra)
+# R needs to know what in the world a "Tidyverse" is, and to learn how to knit graphs and tables
+knitr::opts_chunk$set(echo = FALSE, message = FALSE, warnings = FALSE)
+# The finished html does not neet all the R console output clogging it up
+```
+
+```{css, cap}
+caption {
+      color: black;
+}
+# CSS wants captions to be black, because any other color would make horrible captions
+```
+
+```{r, data, message = FALSE}
+data <- read_csv("https://www.zoology.ubc.ca/~whitlock/ABD/teaching/datasets/03/03e3SticklebackPlates.csv")
+names(data) <- c("Genotype", "Plates")
+# R needs to get its data from somewhere, and to know what to call it
+```
+
+## Three-spined sticklebacks
+
+```{perl, fishies, engine.path='C:\\Strawberry\\perl\\bin\\perl.exe', results = 'asis'}
+print("<i>Gasterosteus aculeatus</i>, the three-spined stickleback, is an anadromous fish native to the Northern Hemisphere. It exhibits a wide range of morphology; typically the stickleback has three spines protruding from its back, and a variety of lateral plates.")
+# perl prints text, results knitted as a raw markdown string
+```
+
+```{r, graphics, fig.align = 'center', fig.cap = '<b>Figure 1:</b> Lateral plate morphology of the three-spine stickleback. © Windsor E. Aguirre', fig.width = 400}
+# The chunk options center the figure, give it a caption, and set its width
+knitr::include_graphics("https://www.researchgate.net/profile/Windsor_Aguirre/publication/285915049/figure/fig2/AS:318190618988545@1452873963743/Lateral-plate-morphs-of-Gasterosteus-aculeatus-A-low-B-partial-C-complete-From_W640.jpg")
+# This code tells knitr where to find a picture to display
+```
+
+## Hardy Weinberg conditions
+
+```{python, POTUS41, results = 'asis'}
+print("The Hardy Weinberg equation:  ")
+print("$p^{2}+2pq+q^{2}=1$")
+# Python prints the HW equation as markdown text
+```
+	
+```{Rcpp, words}
+#include <Rcpp.h>
+#include <string>
+using namespace std;
+
+// [[Rcpp::export]]
+void words() {
+	Rcpp::Rcout << "The Hardy Weinberg equation describes the frequency at which an allele is found in a population. For a simple locus with possible alleles \"A\" and \"a\", with corresponding frequencies \"p\" and \"q\", the Hardy Weinberg equation above gives the frequencies the various genotypes. ";
+}
+// C++ function whichs returns a string.
+```
+
+```{r, wordiness, results = 'asis'}
+words()
+# R function call to the previously defined C++ function
+```
+
+## Data analyses
+
+```{r, histogram, fig.align = 'center', fig.cap = "<b>Figure 2:</b> Frequency distribution of lateral plate counts by genotype"}
+histogram(~ Plates | Genotype, 
+		  data = data, 
+		  breaks = seq(0,70,by=2),
+		  layout = c(1, 3), 
+		  col = "firebrick")
+# Here's a history-o-gram, with the range and bar widths specified
+# It gives the relative frequency of different numbers of lateral plates, broken down by genotype
+```
+
+As shown in Figure 2, the MM genotype has a tight clustering and many plates. The mm genotype has a similar tight clustering, with few plates. The Mm genotype more closely mirrors the MM genotype, but has a significant spread of plate frequencies. These facts are reflected in the medians and standard deviations given in Table 1.
+
+```{r, tafl}
+knitr::kable(data %>% group_by(Genotype) %>% summarize(N = n(), 
+			 			  Mean = mean(Plates), 
+			 			  Median = median(Plates), 
+			 			  StdDev = sd(Plates)), 
+			 align = c('l','c','c','c','c'), 
+			 digits = 2,
+			 format = "html", 
+			 caption = "<b>Table 1:</b> Summary of lateral plate numbers by genotype.",
+			 table.attr = "style='width:70%;'") %>% kable_styling(position = "center")
+# This knits a table, with various formatting options specified
+```
+
+```{r, boxplot, fig.align = 'center', fig.cap = "<b>Figure 3:</b> Number of lateral plates by genotype"}
+ggplot(data, aes(x=Genotype, y=Plates, fill="firebrick")) + 
+	geom_boxplot(outlier.colour="black", outlier.size=3) + 
+	ylim(0,80) + 
+	guides(fill=FALSE, color=FALSE) +
+	theme_bw()
+# A boxplot from 0 - 80, with large outliers, of frequency of lateral plate numbers by genotype
+```
+
+Figure 3 shows the relatively extreme range of plates in the heterozygote compared to either of the homozygotes, although it clusters most closely with the MM genotype. The difference in expected plates between the two homozygotes is shown: even the outliers do not overlap. As demonstrated by the analysis of variance given in Table 2, there is a significant association between plate numbers and genotype. 
+
+```{r, ANOVA}
+knitr::kable(anova(lm(Plates ~ Genotype, data = data)),
+			 digits = 3, 
+			 format = "html", 
+			 caption = "<b>Table 2:</b> One-way ANOVA analysis of lateral plate numbers by genotype",
+			 table.attr = "style='width:70%;'") %>% kable_styling(position = "center")
+# Knitting a table of an analysis of variance of plate number by genotype
+# The ANOVA finds an extremely significant result
+```
+
+## Conclusions
+
+The three-spined stickleback has a variety of plate numbers. Based on a one-way analysis of variance of lateral plates by genotype, genotype was found to has a significant association with the number of plates. As shown in Figure 2 and Figure 3, the MM genotype and Mm genotype both result in more numerous lateral plates. The heterozygote has an extremely large range of plate numbers when compared to either of the homozygotes.
+
+## Reference
+
+Colosimo, P. F., Peichel, C. L., Nereng, K., Blackman, B. K., Shapiro, M. D., Schluter, D., & Kingsley, D. M. (2004). The Genetic Architecture of Parallel Armor Plate Reduction in Threespine Sticklebacks. *PLoS Biology*, *2*(5), e109. https://doi.org/10.1371/journal.pbio.0020109
