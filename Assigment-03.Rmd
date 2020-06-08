@@ -32,7 +32,7 @@ names(data) <- c("Genotype", "Plates")
 ## Three-spined sticklebacks
 
 ```{perl, fishies, engine.path='C:\\Strawberry\\perl\\bin\\perl.exe', results = 'asis'}
-print("Text about fishies. <i>Fishy fishicus</i> is a type of fish. It does fish things, mostly.")
+print("<i>Gasterosteus aculeatus</i>, the three-spined stickleback, is an anadromous fish native to the Northern Hemisphere. It exhibits a wide range of morphology; typically the stickleback has three spines protruding from its back, and a variety of lateral plates.")
 # perl prints text, results knitted as a raw markdown string
 ```
 
@@ -57,7 +57,7 @@ using namespace std;
 
 // [[Rcpp::export]]
 void words() {
-	Rcpp::Rcout << "Why are we talking about Harvey Weinstein? Here's a brief paragraph about him.";
+	Rcpp::Rcout << "The Hardy Weinberg equation describes the frequency at which an allele is found in a population. For a simple locus with possible alleles \"A\" and \"a\", with corresponding frequencies \"p\" and \"q\", the Hardy Weinberg equation above gives the frequencies the various genotypes. ";
 }
 // C++ function whichs returns a string.
 ```
@@ -75,14 +75,11 @@ histogram(~ Plates | Genotype,
 		  breaks = seq(0,70,by=2),
 		  layout = c(1, 3), 
 		  col = "firebrick")
-# Here's a history-o-gram
+# Here's a history-o-gram, with the range and bar widths specified
+# It gives the relative frequency of different numbers of lateral plates, broken down by genotype
 ```
 
-* Things
-* about
-* the
-* histogram  
-And a SegWay
+As shown in Figure 1, the MM genotype has a tight clustering and many plates. The mm genotype has a similar tight clustering, with few plates. The Mm genotype more closely mirrors the MM genotype, but has a significant spread of plate frequencies. These facts are reflected in the medians and standard deviations given in Table 1.
 
 ```{r, tafl}
 knitr::kable(data %>% group_by(Genotype) %>% summarize(N = n(), 
@@ -94,7 +91,7 @@ knitr::kable(data %>% group_by(Genotype) %>% summarize(N = n(),
 			 format = "html", 
 			 caption = "<b>Table 1:</b> Summary of lateral plate numbers by genotype.",
 			 table.attr = "style='width:70%;'") %>% kable_styling(position = "center")
-# Comment explaining this mess of code
+# This knits a table, with various formatting options specified
 ```
 
 ```{r, boxplot, fig.align = 'center', fig.cap = "<b>Figure 3:</b> Number of lateral plates by genotype"}
@@ -103,10 +100,10 @@ ggplot(data, aes(x=Genotype, y=Plates, fill="firebrick")) +
 	ylim(0,80) + 
 	guides(fill=FALSE, color=FALSE) +
 	theme_bw()
-# Useful comment that explains things
+# A boxplot from 0 - 80, with large outliers, of frequency of lateral plate numbers by genotype
 ```
 
-<!-- Insert science here, plus a segfault -->
+Figure 2 shows the relatively extreme range of plates in the heterozygote compared to either of the homozygotes, although it clusters most closely with the MM genotype. The difference in expected plates between the two homozygotes is shown: even the outliers do not overlap. As demonstrated by the analysis of variance given in Table 2, there is a significant association between plate numbers and genotype. 
 
 ```{r, ANOVA}
 knitr::kable(anova(lm(Plates ~ Genotype, data = data)),
