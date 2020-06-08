@@ -79,7 +79,7 @@ histogram(~ Plates | Genotype,
 # It gives the relative frequency of different numbers of lateral plates, broken down by genotype
 ```
 
-As shown in Figure 1, the MM genotype has a tight clustering and many plates. The mm genotype has a similar tight clustering, with few plates. The Mm genotype more closely mirrors the MM genotype, but has a significant spread of plate frequencies. These facts are reflected in the medians and standard deviations given in Table 1.
+As shown in Figure 2, the MM genotype has a tight clustering and many plates. The mm genotype has a similar tight clustering, with few plates. The Mm genotype more closely mirrors the MM genotype, but has a significant spread of plate frequencies. These facts are reflected in the medians and standard deviations given in Table 1.
 
 ```{r, tafl}
 knitr::kable(data %>% group_by(Genotype) %>% summarize(N = n(), 
@@ -103,7 +103,7 @@ ggplot(data, aes(x=Genotype, y=Plates, fill="firebrick")) +
 # A boxplot from 0 - 80, with large outliers, of frequency of lateral plate numbers by genotype
 ```
 
-Figure 2 shows the relatively extreme range of plates in the heterozygote compared to either of the homozygotes, although it clusters most closely with the MM genotype. The difference in expected plates between the two homozygotes is shown: even the outliers do not overlap. As demonstrated by the analysis of variance given in Table 2, there is a significant association between plate numbers and genotype. 
+Figure 3 shows the relatively extreme range of plates in the heterozygote compared to either of the homozygotes, although it clusters most closely with the MM genotype. The difference in expected plates between the two homozygotes is shown: even the outliers do not overlap. As demonstrated by the analysis of variance given in Table 2, there is a significant association between plate numbers and genotype. 
 
 ```{r, ANOVA}
 knitr::kable(anova(lm(Plates ~ Genotype, data = data)),
@@ -111,12 +111,13 @@ knitr::kable(anova(lm(Plates ~ Genotype, data = data)),
 			 format = "html", 
 			 caption = "<b>Table 2:</b> One-way ANOVA analysis of lateral plate numbers by genotype",
 			 table.attr = "style='width:70%;'") %>% kable_styling(position = "center")
-# Insert helpful comment here
+# Knitting a table of an analysis of variance of plate number by genotype
+# The ANOVA finds an extremely significant result
 ```
 
 ## Conclusions
 
-<!-- Insert helpful summary paragraph here -->
+The three-spined stickleback has a variety of plate numbers. Based on a one-way analysis of variance of lateral plates by genotype, genotype was found to has a significant association with the number of plates. As shown in Figure 2 and Figure 3, the MM genotype and Mm genotype both result in more numerous lateral plates. The heterozygote has an extremely large range of plate numbers when compared to either of the homozygotes.
 
 ## Reference
 
