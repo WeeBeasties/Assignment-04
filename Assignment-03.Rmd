@@ -20,7 +20,7 @@ caption {
     }
 ```
 <!-- This chunk is loading the article from the internet for me. -->
-```{r data}
+```{r data, include=TRUE}
 data <- read_csv("https://www.zoology.ubc.ca/~whitlock/ABD/teaching/datasets/03/03e3SticklebackPlates.csv")
 names(data) <- c("Genotype", "Plates")
 
@@ -35,6 +35,31 @@ knitr::include_graphics("https://www.researchgate.net/profile/Windsor_Aguirre/pu
 
 ```
 
+## Hardy Weinberg conditions
+The Hardy Weinberg equation applies to this data set by showing us the adaptive divergence between the natural populations of sticklebacks. We can better understand the evolution of this specific species of sticklebacks. 
 
+The Hardy Weinberg equation is $p^2 + 2pq + q^2 = 1$.
 
+## Data analyses
 
+``` {r data analyses, include = TRUE}
+histogram(~ Plates | Genotype, 
+		  data = data, 
+		  breaks = seq(0,70,by=2),
+		  layout = c(1, 3), 
+		  col = "firebrick")
+caption = "**Figure 2: Frequency distribution of lateral plate counts by genotype."
+```
+
+```{r data specs}
+knitr::kable(data %>% group_by(Genotype) %>% summarize(N = n(), 
+			 			  Mean = mean(Plates), 
+			 			  Median = median(Plates), 
+			 			  StdDev = sd(Plates)), 
+			 align = c('l','c','c','c','c'), 
+			 digits = 2,
+			 format = "html", 
+			 caption = "**Table 1:** Summary of lateral plate numbers by genotype.",
+			 table.attr = "style='width:70%;'") %>% kable_styling(position = "center")
+
+```
