@@ -19,10 +19,11 @@ caption {
       color: black;
     }
 ```
-<!-- This chunk is loading the article from the internet for me. -->
+<!-- This chunk is loading the excel data from the internet for me. -->
 ```{r data, include=TRUE}
-data <- read_csv("https://www.zoology.ubc.ca/~whitlock/ABD/teaching/datasets/03/03e3SticklebackPlates.csv")
+data <- read_csv(file = "https://www.zoology.ubc.ca/~whitlock/ABD/teaching/datasets/03/03e3SticklebackPlates.csv", col_types = cols())
 names(data) <- c("Genotype", "Plates")
+
 
 ```
 
@@ -30,7 +31,7 @@ names(data) <- c("Genotype", "Plates")
 The three-spined stickleback (*Gasterosteus aculeatus*) is a fish that is native to inland coastal waters. The genus for this specific species of stickleback (*G. aculeatus*) belongs to the genus *Gasterosteus*.
 
 <!-- This chunk is providing my markdown file with an image of the three-spined stickleback -->
-```{r remedy002}
+```{r remedy002, fig.align='center'}
 knitr::include_graphics("https://www.researchgate.net/profile/Windsor_Aguirre/publication/285915049/figure/fig2/AS:318190618988545@1452873963743/Lateral-plate-morphs-of-Gasterosteus-aculeatus-A-low-B-partial-C-complete-From_W640.jpg")
 
 ```
@@ -42,7 +43,7 @@ The Hardy Weinberg equation is $p^2 + 2pq + q^2 = 1$.
 
 ## Data analyses
 
-``` {r data analyses, include = TRUE}
+``` {r data analyses, include = TRUE, fig.align='center', out.width = "400px"}
 histogram(~ Plates | Genotype, 
 		  data = data, 
 		  breaks = seq(0,70,by=2),
