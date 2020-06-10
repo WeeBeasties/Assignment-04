@@ -26,7 +26,14 @@ names(data) <- c("Genotype", "Plates")
 
 ```
 
-## Three-spined Sicklebacks
+## Three-spined Sticklebacks
+The three-spined stickleback (*Gasterosteus aculeatus*) is a fish that is native to inland coastal waters. The genus for this specific species of stickleback (*G. aculeatus*) belongs to the genus *Gasterosteus*.
+
+<!-- This chunk is providing my markdown file with an image of the three-spined stickleback -->
+```{r remedy002}
+knitr::include_graphics("https://www.researchgate.net/profile/Windsor_Aguirre/publication/285915049/figure/fig2/AS:318190618988545@1452873963743/Lateral-plate-morphs-of-Gasterosteus-aculeatus-A-low-B-partial-C-complete-From_W640.jpg")
+
+```
 
 
 
