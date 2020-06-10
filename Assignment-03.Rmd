@@ -1,0 +1,33 @@
+---
+title: "Assignment_03"
+author: "Jonathan Schuster"
+date: "`r format(Sys.time(), '%B %d, %Y')`"
+output:
+  html_document: default
+  pdf_document: default
+---
+ <!-- This chunk is storing tidyverse, lattice, and kableExtra into my library --> 
+```{r libraries, include=FALSE}
+library(tidyverse)
+library(lattice)
+library(kableExtra)
+knitr::opts_chunk$set(echo = FALSE)
+```
+ <!-- This chunk is styling captions on the markdown document, specifically my table captions. --> 
+```{css, echo = FALSE}
+caption {
+      color: black;
+    }
+```
+<!-- This chunk is loading the article from the internet for me. -->
+```{r data}
+data <- read_csv("https://www.zoology.ubc.ca/~whitlock/ABD/teaching/datasets/03/03e3SticklebackPlates.csv")
+names(data) <- c("Genotype", "Plates")
+
+```
+
+## Three-spined Sicklebacks
+
+
+
+
