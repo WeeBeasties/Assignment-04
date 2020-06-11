@@ -1,0 +1,43 @@
+---
+title: "Assignment-03.Rmd"
+output: html_document
+date: "`r format(Sys.time(), '%B %d, %Y')`"
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+
+properly sets up doc making sure all packages needed are installed.
+```{R Setup}
+library(tidyverse)
+library(lattice)
+library(kableExtra)
+knitr::opts_chunk$set(echo = FALSE)
+```
+
+
+styles table captions to black.
+```{css, echo = FALSE}
+caption {
+      color: black;
+    }
+```
+
+
+loads data from the internet
+```{R Data}
+data <- read_csv("https://www.zoology.ubc.ca/~whitlock/ABD/teaching/datasets/03/03e3SticklebackPlates.csv")
+names(data) <- c("Genotype", "Plates")
+```
+
+
+
+## "Three-spined sticklebacks"
+
+
+
+
+
+
