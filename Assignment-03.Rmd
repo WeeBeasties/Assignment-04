@@ -11,6 +11,8 @@ output:
 library(tidyverse)
 library(lattice)
 library(kableExtra)
+library(dplyr)
+library(captioner)
 knitr::opts_chunk$set(echo = FALSE)
 ```
  <!-- This chunk is styling captions on the markdown document, specifically my table captions. --> 
@@ -31,7 +33,7 @@ names(data) <- c("Genotype", "Plates")
 The three-spined stickleback (*Gasterosteus aculeatus*) is a fish that is native to inland coastal waters. The genus for this specific species of stickleback (*G. aculeatus*) belongs to the genus *Gasterosteus*.
 
 <!-- This chunk is providing my markdown file with an image of the three-spined stickleback -->
-```{r remedy002, fig.align='center'}
+```{r picture, fig.align='center', out.width = "400px"}
 knitr::include_graphics("https://www.researchgate.net/profile/Windsor_Aguirre/publication/285915049/figure/fig2/AS:318190618988545@1452873963743/Lateral-plate-morphs-of-Gasterosteus-aculeatus-A-low-B-partial-C-complete-From_W640.jpg")
 
 ```
@@ -43,13 +45,12 @@ The Hardy Weinberg equation is $p^2 + 2pq + q^2 = 1$.
 
 ## Data analyses
 
-``` {r data analyses, include = TRUE, fig.align='center', out.width = "400px"}
+``` {r histogram, include = TRUE, fig.align='center', fig.cap="**Figure 2:** Frequency distribution of lateral plate counts by genotype."}
 histogram(~ Plates | Genotype, 
 		  data = data, 
 		  breaks = seq(0,70,by=2),
 		  layout = c(1, 3), 
 		  col = "firebrick")
-caption = "**Figure 2: Frequency distribution of lateral plate counts by genotype."
 ```
 
 ```{r data specs}
@@ -64,3 +65,29 @@ knitr::kable(data %>% group_by(Genotype) %>% summarize(N = n(),
 			 table.attr = "style='width:70%;'") %>% kable_styling(position = "center")
 
 ```
+<!-- This chunk is inserting another visual representation of the data in the form of boxplots. Looking at genotypes and plate.-->
+
+```{r boxplots, fig.align='center'}
+ggplot(data, aes(x=Genotype, y=Plates, fill="firebrick")) + 
+	geom_boxplot(outlier.colour="black", outlier.size=3) + 
+	ylim(0,80) + 
+	guides(fill=FALSE, color=FALSE) +
+	theme_bw()
+
+
+```
+<!-- In this chunk I am inserting the ANOVA table which basically gives the scientific relevance of the data for this research. -->
+```{r ANOVA}
+knitr::kable(anova(lm(Plates ~ Genotype, data = data)),
+			 digits = 3, 
+			 format = "html", 
+			 caption = "**Table 2:** One-way ANOVA analysis of lateral plate numbers by genotype.",
+			 table.attr = "style='width:70%;'") %>% kable_styling(position = "center")
+
+```
+
+## Conclusions
+
+
+## Reference 
+Colosimo, P. F., Peichel, C. L., Nereng, K., Blackman, B. K., Shapiro, M. D., Schluter, D., & Kingsley, D. M. (2004). _The Genetic Architecture of Parallel Armor Plate Reduction in Threespine Sticklebacks._ PLoS Biology, _2(5)_, e109. https://doi.org/10.1371/journal.pbio.0020109
