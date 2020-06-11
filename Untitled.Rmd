@@ -9,7 +9,7 @@ knitr::opts_chunk$set(echo = TRUE)
 ```
 
 
-<!-- Made sure packages needed are installed. --!>
+ <!-- Made sure packages needed are installed. --> 
 ```{R Setup}
 library(tidyverse)
 library(lattice)
@@ -18,7 +18,7 @@ knitr::opts_chunk$set(echo = FALSE)
 ```
 
 
-<!-- Styled table captions to black. --!>
+ <!-- Styled table captions to black. --> 
 ```{css, echo = FALSE}
 caption {
       color: black;
@@ -44,8 +44,36 @@ knitr::include_graphics("https://www.researchgate.net/profile/Windsor_Aguirre/pu
 ```
 ## Hardy Weinberg conditions
 A mathematical equation that is used to calculate the genetic variation of a population _that is not evolving_ in equilibrium. This is an expression of the principle, 'Hardy-Weinberg equilibrium'; which states that the allele and genotype frequencies in a population will remain constant from generation to generation in the absence of other evolutionary influences. The equation calculates the genotype frequencies that will be observed in a population that is not evolving. This information functions as a null hypothesis or standard against which judgements can be made about whether or not a population is evolving.
-**Equation:**$p^{2}$+2pq+$q^{2}$=1. 
+**Equation:**$p^{2}$+2pq+$q^{2}$=1.
 
+ <!-- Added data chunk, centered it, and added a caption. --> 
+ 
+## Data Analyses
+
+
+
+```{r Data Analyses, fig.align='center', fig.cap="**Figure 2:** Frequency distribution of lateral plate counts by genotype."}
+histogram(~ Plates | Genotype, 
+		  data = data, 
+		  breaks = seq(0,70,by=2),
+		  layout = c(1, 3), 
+		  col = "firebrick")
+```
+Figure 2 shows what percentage of each genotype (mm, Mm, and MM) had a certain amount of plates. Table 1 shows how many of the 344 individuals had 'x' genotype, and the mean, median, and standard deviation of each genotype. 
+
+ <!-- Added more data in form of a table and caption was changed. --> 
+```{r Statistics of Data}
+knitr::kable(data %>% group_by(Genotype) %>% summarize(N = n(), 
+			 			  Mean = mean(Plates), 
+			 			  Median = median(Plates), 
+			 			  StdDev = sd(Plates)), 
+			 align = c('l','c','c','c','c'), 
+			 digits = 2,
+			 format = "html", 
+			 caption = "Table 1: Summary of lateral plates by genotype",
+			 table.attr = "style='width:70%;'") %>% kable_styling(position = "center")
+
+```
 
 
 
