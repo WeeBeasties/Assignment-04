@@ -35,7 +35,7 @@ names(data) <- c("Genotype", "Plates")
 
 
 ## Three-spined sticklebacks
-Binomial nomenclature: *Gasterosteus aculeatus*
+Binomial nomenclature: *Gasterosteus aculeatus.*
 A small torpedo shaped fish, this fish can live in either fresh, brackish, or salt water. They are typically found only in the Northern Hemisphere where it inhabits coastal waters or freshwater bodies. It's common name is derived from the presence of three (sometimes 2-4) sharp spines on the back dorsal fin towards the head. Coloring is usually obscure; mottled brown-green coloring on the upper side of the body and a white, silvery, or yellow-ish color on the ventral side. Males posses a vivid-blue gree eye color and the breast region shows a red orange coloration.
 
  <!-- Centered, altered width of picture, and added caption. All additions made inside curly brackets. --> 
@@ -48,7 +48,7 @@ A mathematical equation that is used to calculate the genetic variation of a pop
 
  <!-- Added data chunk, centered it, and added a caption. --> 
  
-## Data Analyses
+## Data analyses
 
 
 
@@ -59,9 +59,9 @@ histogram(~ Plates | Genotype,
 		  layout = c(1, 3), 
 		  col = "firebrick")
 ```
-Figure 2 shows what percentage of each genotype (mm, Mm, and MM) had a certain amount of plates. Table 1 shows how many of the 344 individuals had 'x' genotype, and the mean, median, and standard deviation of each genotype. 
+Figure 2 shows what percentage of each genotype (mm, Mm, and MM) had a certain amount of plates. Table 1 below shows how many of the 344 individuals had 'x' genotype, and the mean, median, and standard deviation of each genotype. 
 
- <!-- Added more data in form of a table and caption was changed. --> 
+ <!-- Added more data in form of a table and caption was added. --> 
 ```{r Statistics of Data}
 knitr::kable(data %>% group_by(Genotype) %>% summarize(N = n(), 
 			 			  Mean = mean(Plates), 
@@ -76,7 +76,30 @@ knitr::kable(data %>% group_by(Genotype) %>% summarize(N = n(),
 ```
 
 
+ <!-- Added more data in form of boxplots, centered figure, and added caption. --> 
+```{r Boxplots of Data, fig.align='center', fig.cap="**Figure 3:** Number of lateral plates by genotype."}
 
+ggplot(data, aes(x=Genotype, y=Plates, fill="firebrick")) + 
+	geom_boxplot(outlier.colour="black", outlier.size=3) + 
+	ylim(0,80) + 
+	guides(fill=FALSE, color=FALSE) +
+	theme_bw()
+
+```
+Figure 3 shows the distribution of data; median quartile range in middle and outlier quartiles to the left and right. This shows what the outlier number of plates and genotype are and what the median is. Table 2 below shows an analysis of plate numbers by genotype.
+
+
+ <!-- Added more data in form of ANOVA analysis and changed caption. -->  
+```{r ANOVA analysis of Data}
+
+knitr::kable(anova(lm(Plates ~ Genotype, data = data)),
+			 digits = 3, 
+			 format = "html", 
+			 caption = "Table 2: One-way ANOVA analysis of lateral plate numbers by genotype",
+			 table.attr = "style='width:70%;'") %>% kable_styling(position = "center")
+
+
+```
 
 
 
