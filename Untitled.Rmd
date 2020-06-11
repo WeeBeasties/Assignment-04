@@ -38,11 +38,13 @@ names(data) <- c("Genotype", "Plates")
 Binomial nomenclature: *Gasterosteus aculeatus*
 A small torpedo shaped fish, this fish can live in either fresh, brackish, or salt water. They are typically found only in the Northern Hemisphere where it inhabits coastal waters or freshwater bodies. It's common name is derived from the presence of three (sometimes 2-4) sharp spines on the back dorsal fin towards the head. Coloring is usually obscure; mottled brown-green coloring on the upper side of the body and a white, silvery, or yellow-ish color on the ventral side. Males posses a vivid-blue gree eye color and the breast region shows a red orange coloration.
 
-
-```{R Picture, fig.align = 'center'}
+ <!-- Centered, altered width of picture, and added caption. All additions made inside curly brackets. --> 
+```{R Picture, fig.align = 'center', fig.width = 400, fig.cap = "**Figure 1:** Lateral plate morphology of the three-spine stickleback. ©Windsor E. Aguirre."}
 knitr::include_graphics("https://www.researchgate.net/profile/Windsor_Aguirre/publication/285915049/figure/fig2/AS:318190618988545@1452873963743/Lateral-plate-morphs-of-Gasterosteus-aculeatus-A-low-B-partial-C-complete-From_W640.jpg") 
 ```
-
+## Hardy Weinberg conditions
+A mathematical equation that is used to calculate the genetic variation of a population _that is not evolving_ in equilibrium. This is an expression of the principle, 'Hardy-Weinberg equilibrium'; which states that the allele and genotype frequencies in a population will remain constant from generation to generation in the absence of other evolutionary influences. The equation calculates the genotype frequencies that will be observed in a population that is not evolving. This information functions as a null hypothesis or standard against which judgements can be made about whether or not a population is evolving.
+**Equation:**$p^{2}$+2pq+$q^{2}$=1. 
 
 
 
