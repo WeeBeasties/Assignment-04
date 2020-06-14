@@ -1,0 +1,114 @@
+---
+title: "Assignment-03.Rmd"
+output: html_document
+date: "`r format(Sys.time(), '%B %d, %Y')`"
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+
+ <!-- Made sure packages needed are installed. --> 
+```{R Setup}
+library(tidyverse)
+library(lattice)
+library(kableExtra)
+knitr::opts_chunk$set(echo = FALSE)
+```
+
+
+ <!-- Styled table captions to black. --> 
+```{css, echo = FALSE}
+caption {
+      color: black;
+    }
+```
+
+
+<!-- Loaded data from the internet. -->
+```{R Data}
+data <- read_csv("https://www.zoology.ubc.ca/~whitlock/ABD/teaching/datasets/03/03e3SticklebackPlates.csv")
+names(data) <- c("Genotype", "Plates")
+```
+
+
+
+## Three-spined sticklebacks
+Binomial nomenclature: *Gasterosteus aculeatus.*
+A small torpedo shaped fish, this fish can live in either fresh, brackish, or salt water. They are typically found only in the Northern Hemisphere where it inhabits coastal waters or freshwater bodies. It's common name is derived from the presence of three (sometimes 2-4) sharp spines on the back dorsal fin towards the head. Coloring is usually obscure; mottled brown-green coloring on the upper side of the body and a white, silvery, or yellow-ish color on the ventral side. Males posses a vivid-blue gree eye color and the breast region shows a red orange coloration.
+
+ <!-- Centered, altered width of picture, and added caption. All additions made inside curly brackets. --> 
+```{R Picture, fig.align = 'center', fig.width = 400, fig.cap = "**Figure 1:** Lateral plate morphology of the three-spine stickleback. ©Windsor E. Aguirre."}
+knitr::include_graphics("https://www.researchgate.net/profile/Windsor_Aguirre/publication/285915049/figure/fig2/AS:318190618988545@1452873963743/Lateral-plate-morphs-of-Gasterosteus-aculeatus-A-low-B-partial-C-complete-From_W640.jpg") 
+```
+## Hardy Weinberg conditions
+A mathematical equation that is used to calculate the genetic variation of a population _that is not evolving_ in equilibrium. This is an expression of the principle, 'Hardy-Weinberg equilibrium'; which states that the allele and genotype frequencies in a population will remain constant from generation to generation in the absence of other evolutionary influences. The equation calculates the genotype frequencies that will be observed in a population that is not evolving. This information functions as a null hypothesis or standard against which judgements can be made about whether or not a population is evolving.
+**Equation:**$p^{2}$+2pq+$q^{2}$=1.
+
+ <!-- Added data chunk, centered it, and added a caption. --> 
+ 
+## Data analyses
+
+
+
+```{r Data Analyses, fig.align='center', fig.cap="**Figure 2:** Frequency distribution of lateral plate counts by genotype."}
+histogram(~ Plates | Genotype, 
+		  data = data, 
+		  breaks = seq(0,70,by=2),
+		  layout = c(1, 3), 
+		  col = "firebrick")
+```
+Figure 2 shows what percentage of each genotype (mm, Mm, and MM) had a certain amount of plates. Table 1 below shows how many of the 344 individuals had 'x' genotype, and the mean, median, and standard deviation of each genotype. 
+
+ <!-- Added more data in form of a table and caption was added. --> 
+```{r Statistics of Data}
+knitr::kable(data %>% group_by(Genotype) %>% summarize(N = n(), 
+			 			  Mean = mean(Plates), 
+			 			  Median = median(Plates), 
+			 			  StdDev = sd(Plates)), 
+			 align = c('l','c','c','c','c'), 
+			 digits = 2,
+			 format = "html", 
+			 caption = "Table 1: Summary of lateral plates by genotype",
+			 table.attr = "style='width:70%;'") %>% kable_styling(position = "center")
+
+```
+
+
+ <!-- Added more data in form of boxplots, centered figure, and added caption. --> 
+```{r Boxplots of Data, fig.align='center', fig.cap="**Figure 3:** Number of lateral plates by genotype."}
+
+ggplot(data, aes(x=Genotype, y=Plates, fill="firebrick")) + 
+	geom_boxplot(outlier.colour="black", outlier.size=3) + 
+	ylim(0,80) + 
+	guides(fill=FALSE, color=FALSE) +
+	theme_bw()
+
+```
+Figure 3 shows the distribution of data; median quartile range in middle and outlier quartiles to the left and right. This shows what the outlier number of plates and genotype are and what the median is. Table 2 below shows an analysis of plate numbers by genotype.
+
+
+ <!-- Added more data in form of ANOVA analysis and changed caption. -->  
+```{r ANOVA analysis of Data}
+
+knitr::kable(anova(lm(Plates ~ Genotype, data = data)),
+			 digits = 3, 
+			 format = "html", 
+			 caption = "Table 2: One-way ANOVA analysis of lateral plate numbers by genotype",
+			 table.attr = "style='width:70%;'") %>% kable_styling(position = "center")
+
+
+```
+
+
+## Conclusions 
+Based on the data provided and the analyses done previously, it is my opinion that the 'M' allele is dominant over the 'm' allele.
+
+
+## Reference
+Colosimo, P. F., Peichel, C. L., Nereng, K., Blackman, B. K., Shapiro, M. D., Schluter, D., & Kingsley, D. M. (2004). The Genetic Architecture of Parallel Armor Plate Reduction in Threespine Sticklebacks. _PLoS Biology_, _2(5)_, _e109_. https://doi.org/10.1371/journal.pbio.0020109
+
+
+
+
