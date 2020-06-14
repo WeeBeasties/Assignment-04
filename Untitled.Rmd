@@ -102,6 +102,14 @@ knitr::kable(anova(lm(Plates ~ Genotype, data = data)),
 ```
 
 
+## Conclusions 
+Conclusions based on analyses that was done.
+
+
+
+## Reference
+Colosimo, P. F., Peichel, C. L., Nereng, K., Blackman, B. K., Shapiro, M. D., Schluter, D., & Kingsley, D. M. (2004). The Genetic Architecture of Parallel Armor Plate Reduction in Threespine Sticklebacks. _PLoS Biology_, _2(5)_, _e109_. https://doi.org/10.1371/journal.pbio.0020109
+
 
 
 
