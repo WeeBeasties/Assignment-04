@@ -103,8 +103,7 @@ knitr::kable(anova(lm(Plates ~ Genotype, data = data)),
 
 
 ## Conclusions 
-Conclusions based on analyses that was done.
-
+Based on the data provided and the analyses done previously, it is my opinion that the 'M' allele is dominant over the 'm' allele.
 
 
 ## Reference
