@@ -1,0 +1,100 @@
+---
+title: "BIOL390: Assignment 3"
+author: "KeShondra Reed"
+date: "`r format(Sys.time(), '%B %d, %Y')`"
+output:
+  html_document: default
+  pdf_document: default
+---
+
+```{r bruno, echo = FALSE}
+library(tidyverse)
+library(lattice)
+library(kableExtra)
+# This is telling r that I want to use "tidyverse" conent 
+knitr::opts_chunk$set(echo = FALSE)
+```
+
+
+```{css, echo = FALSE}
+caption {
+      color: black;
+    }
+# this is so the captions are black
+```
+
+```{r,data}
+data <- read_csv("https://www.zoology.ubc.ca/~whitlock/ABD/teaching/datasets/03/03e3SticklebackPlates.csv")
+names(data) <- c("Genotype", "Plates")
+# This is where the data is coming from so that R can make plots and graphs, and the name of the data,
+```
+
+## Three-spined sticklebacks 
+
+A three-spined stickleback also know as _Gasterostrus aculetus_ is a very small fish. Is is easy to identify by it sharp spines on the back fins and a pair of spines on the pelvic fins. They are found in the Northern Hemisphere in salt and fresh water.
+
+```{r, graphics, fig.align='center' , fig.cap = '**Figure 1:** Lateral plate morphology of the three-spine stickleback. © Windsor E. Aguirre', fig.width = 4}
+# the chunck above tells that the pic is center, the name, and the width.
+knitr::include_graphics("https://www.researchgate.net/profile/Windsor_Aguirre/publication/285915049/figure/fig2/AS:318190618988545@1452873963743/Lateral-plate-morphs-of-Gasterosteus-aculeatus-A-low-B-partial-C-complete-From_W640.jpg")
+# this is the code to find the pic.
+```
+
+## Hardy Weinberg conditions ##
+
+The Hardy Weinbery is used to calculate the genetic variation of a population at equilibrium. This equation pertain to assignment becasue it can calculate the number of different genetic changes in the three-spined sticklebacks.
+
+The Hardy Weinberg equation is $p^2 + 2pq + q^2 = 1$
+
+## Data analyses ##
+
+```{r, histogram, fig.align='center', fig.cap = "**Figure 2:** Frequency distribution of lateral plate counts by genotype" }
+histogram(~ Plates | Genotype, 
+		  data = data, 
+		  breaks = seq(0,70,by=2),
+		  layout = c(1, 3), 
+		  col = "firebrick")
+# this is a histigram that give the the number of different plantes by the genotype.
+```
+In Figure 2 the MM genotype has a number of  plates and are more close together where as the Mm has even more plates that are closer together, and the mm genotype has fewer plates and spread futher aprt. In table 1 the mean, median, and the StdDev explain the finding of figure 2. 
+
+```{r, table}
+knitr::kable(data %>% group_by(Genotype) %>% summarize(N = n(), 
+			 			  Mean = mean(Plates), 
+			 			  Median = median(Plates), 
+			 			  StdDev = sd(Plates)), 
+			 align = c('l','c','c','c','c'), 
+			 digits = 2,
+			 format = "html", 
+			 caption = "**Table 1:** Summary of lateral plate numbers by genotype.",
+			 table.attr = "style='width:70%;'") %>% kable_styling(position = "center")
+
+
+# this is a code for the table showing the tables different genotypes mean, median, and standard deviation.
+```
+
+
+```{r, boxplot, fig.align='center', fig.cap="**Figure 3:** Number of lateral plates by genotype"}
+ggplot(data, aes(x=Genotype, y=Plates, fill="firebrick")) + 
+	geom_boxplot(outlier.colour="black", outlier.size=3) + 
+	ylim(0,80) + 
+	guides(fill=FALSE, color=FALSE) +
+	theme_bw()
+# this is fiqure that shows the genotype by the nummber of plates, and it range from 0 to 80.
+```
+
+In figure 3 its shows the range of plates in the mm, Mm, and the MM. Its shows that the MM had a larger range of plates, even with the cluster almost alike compare to the mm. As in Table 2, it show the relationship between genotype and plates. 		
+
+```{r, ANOVA}
+knitr::kable(anova(lm(Plates ~ Genotype, data = data)),
+			 digits = 3, 
+			 format = "html", 
+			 caption = "**Table 2:** One-way ANOVA analysis of lateral plate numbers by genotype.",
+			 table.attr = "style='width:70%;'") %>% kable_styling(position = "center")
+# table for one way analysis of lateral plates of number by genotype.
+```
+
+## Conclusion ##
+The was fish I never heard of but I learned that he three-spined stickleback has many plate numbers. The geneoptype had an relationship with the number of plates, according to the one figure 3. The genotypes MM and Mm both had alot of plates
+
+## Reference ##
+Colosimo, P. F., Peichel, C. L., Nereng, K., Blackman, B. K., Shapiro, M. D., Schluter, D., & Kingsley, D. M. (2004). The Genetic Architecture of Parallel Armor Plate Reduction in Threespine Sticklebacks. _PLoS Biology_, _2(5)_, e109. https://doi.org/10.1371/journal.pbio.0020109
