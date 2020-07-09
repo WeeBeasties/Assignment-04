@@ -1,0 +1,110 @@
+
+---
+title: "BIOL390: Assignment 3"
+author: "LUCAS FINNER"
+date: "`r format(Sys.time(), '%B %d, %Y')`"
+output:
+  html_document: default
+  pdf_document: default
+---
+
+```{r LOAD_PACKAGES, message=FALSE}
+library(tidyverse)
+library(lattice)
+library(kableExtra)
+knitr::opts_chunk$set(echo = FALSE)
+```
+
+<!-- LOAD_PACKAGES is designated to load the required packages. These packages load the necessary components needed to run the code in this file. -->
+
+```{css, echo = FALSE}
+caption {
+      color: black;
+    }
+```
+
+<!-- This chunk formats table captions. -->
+
+```{r LOAD_DATA, message=FALSE}
+data <- read_csv("https://www.zoology.ubc.ca/~whitlock/ABD/teaching/datasets/03/03e3SticklebackPlates.csv")
+names(data) <- c("Genotype", "Plates")
+```
+
+<!-- LOAD_DATA loads the data from the internet.The data is stored in two columns - genotype and no.plates. -->
+
+## Three-spined sticklebacks
+
+The three-spined stickleback (*Gasterosteus aculeatus*) is a seawater fish that is heavily studied by scientist due to its various genetic identity. It typically falls into two subspecies - anadromous and freshwater.(*Wikipidia*)
+
+```{r LOAD_IMAGE, fig.align="center", cpaged.print=TRUE, out.width="400px", fig.cap= "**Figure 1:** Lateral plate morphology of the three-spine stickleback. © Windsor E. Aguirre"}
+knitr::include_graphics("https://www.researchgate.net/profile/Windsor_Aguirre/publication/285915049/figure/fig2/AS:318190618988545@1452873963743/Lateral-plate-morphs-of-Gasterosteus-aculeatus-A-low-B-partial-C-complete-From_W640.jpg")
+```
+
+<!-- An image of the three-spined stickleback is shown with the required specifications. -->
+
+## Hardy Weinberg conditions
+
+The Hard-Weinberg equation is an equation that is used to calculate genetic 
+variation of a population. This pertains to the assignment because the genetic variation of the Three-spined stickleback is what is being studied for this assignment.
+
+Hardy-Weinberg principle: p^2^ + 2pq + q^2^ = 1
+
+## Data Analyses
+
+```{r LOAD_HISTOGRAM, fig.align= "center", fig.cap= "**Figure 2:** Frequency distribution of lateral plate counts by genotype"}
+histogram(~ Plates | Genotype, 
+		  data = data, 
+		  breaks = seq(0,70,by=2),
+		  layout = c(1, 3), 
+		  col = "firebrick")
+```
+
+<!-- LOAD_HISTOGRAM loads a histrogram of the data. -->
+
+Here you can see Mn has the most variation (spread out) compared to the other genotypes. This is reflected in table 1, by Mn also having the highest StdDev (15.15). mm and MM have a much more concentrated number of plates for their respective genotype.
+
+```{r LOAD_TABLE}
+knitr::kable(data %>% group_by(Genotype) %>% summarize(N = n(), 
+			 			  Mean = mean(Plates), 
+			 			  Median = median(Plates), 
+			 			  StdDev = sd(Plates)), 
+			 align = c('l','c','c','c','c'), 
+			 digits = 2,
+			 format = "html", 
+			 caption = "**Table 1:**, Summary of lateral plate numbers by genotype",
+			 table.attr = "style='width:70%;'") %>% kable_styling(position = "center")
+```
+
+<!-- LOAD_TABLE loads the table for the data. -->
+
+```{r LOAD_BOXPLOT, fig.cap= "**Figure 3:** Number of lateral plates by genotype", fig.align='center'}
+ggplot(data, aes(x=Genotype, y=Plates, fill="firebrick")) + 
+	geom_boxplot(outlier.colour="black", outlier.size=3) + 
+	ylim(0,80) + 
+	guides(fill=FALSE, color=FALSE) +
+	theme_bw()
+
+```
+
+<!-- LOAD_BOXPLOT loads a box-plot dataset with the required specefications. -->
+The boxplot reflects the same information provided by the histogram, but in a slighlty different representation. Mn clearly has the most variation by plate number, with mm having a concentrated lower number and MM a higher. 
+
+```{r LOAD_ANOVA}
+knitr::kable(anova(lm(Plates ~ Genotype, data = data)),
+			 digits = 3, 
+			 format = "html", 
+			 caption = "**Table 2:** One-way ANOVA analysis of lateral plate numbers by genotype",
+			 table.attr = "style='width:70%;'") %>% kable_styling(position = "center")
+```
+
+<!-- LOAD_ANOVA loads the ANOVA table for the data. -->
+
+## Conclusions
+
+In conclusion, it is evident the Three-spined stickleback has three variations in plate number based off genome. mm has the lowest and a very concentrated count, Mn in the middle with a variation of plates, and MM with the most plates at around 60.This shows the genotype of the fish greatly affects the number of plates it will have.
+
+## Reference
+
+*Colosimo, P. F., Peichel, C. L., Nereng, K., Blackman, B. K., Shapiro, M. D., Schluter, D., & Kingsley, D. M. (2004). The Genetic Architecture of Parallel Armor Plate Reduction in Threespine Sticklebacks. PLoS Biology, 2(5), e109. https://doi.org/10.1371/journal.pbio.0020109*
+
+
