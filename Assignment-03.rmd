@@ -1,0 +1,28 @@
+"`r format(Sys.time(), '%B %d, %Y')`"  
+
+```{r}
+library(tidyverse)
+library(lattice)
+library(kableExtra)
+knitr::opts_chunk$set(echo = FALSE)
+```
+ <!-- This is the info for the setup --> 
+ 
+```{css, echo = FALSE}
+caption {
+      color: black;
+    }
+```
+ <!-- This is the code for caption styling --> 
+ 
+```{r}
+data <- read_csv("https://www.zoology.ubc.ca/~whitlock/ABD/teaching/datasets/03/03e3SticklebackPlates.csv")
+names(data) <- c("Genotype", "Plates")
+```
+ <!-- This is the code for the data --> 
+
+## Three-spined sticklebacks 
+The three spined stickleback also known as _Gasterosteus aculeatus_ is a fish native to most coastal waters north of 30°N. It shows great morphological variation throughout its range, ideal for questions about evolution and population genetics.  
+
+ 
+
