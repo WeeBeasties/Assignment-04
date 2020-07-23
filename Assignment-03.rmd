@@ -24,5 +24,53 @@ names(data) <- c("Genotype", "Plates")
 ## Three-spined sticklebacks 
 The three spined stickleback also known as _Gasterosteus aculeatus_ is a fish native to most coastal waters north of 30°N. It shows great morphological variation throughout its range, ideal for questions about evolution and population genetics.  
 
+```{r,fig.align='center',fig.cap="__Figure 1__: Lateral plate morphology of the three-spine stickleback. © Windsor E. Aguirre.",out.width="400"}
+knitr::include_graphics("https://www.researchgate.net/profile/Windsor_Aguirre/publication/285915049/figure/fig2/AS:318190618988545@1452873963743/Lateral-plate-morphs-of-Gasterosteus-aculeatus-A-low-B-partial-C-complete-From_W640.jpg")
+
+```
+ <!-- This chunk is for is for setting up the picture --> 
+
+## Hardy Weinberg Conditions  
+The Hardy-Weinberg equation is a mathematical equation that can be used to calculate the genetic variation of a population at equilibrium. The equation is an expression of the principle known as Hardy-Weinberg equilibrium, which states that the amount of genetic variation in a population will remain constant from one generation to the next in the absence of disturbing factors. In our study we can use the equation to see how much we expect our different groups of Three Spined Spindlebacks to change genetically. The H-W equation is p<sup>2</sup> + 2pq + q<sup>2</sup> =1  
+
+## Data Analyses  
+```{r,fig.align='center',fig.cap="__Figure 2__: Frequency distribution of lateral plate counts by genotype"}
+histogram(~ Plates | Genotype, 
+		  data = data, 
+		  breaks = seq(0,70,by=2),
+		  layout = c(1, 3), 
+		  col = "firebrick")
+
+```
+ <!-- This is chunk for the histograms --> 
+The histogram above shows the frequency of the lateral bony plates of the Three spined spindleback by genotype. The following is a table of the summary of lateral plate counts per genotype.  
+```{r}
+knitr::kable(data %>% group_by(Genotype) %>% summarize(N = n(), 
+			 			  Mean = mean(Plates), 
+			 			  Median = median(Plates), 
+			 			  StdDev = sd(Plates)), 
+			 align = c('l','c','c','c','c'), 
+			 digits = 2,
+			 format = "html", 
+			 caption = "__Table 1__: Summary of lateral plate numbers by genotype",
+			 table.attr = "style='width:70%;'") %>% kable_styling(position = "center")
+
+```
+ <!-- This chunk is for the summary table data -->  
+```{r,fig.align='center',fig.cap="__Figure 3__: Number of lateral plates by genotype"}
+ggplot(data, aes(x=Genotype, y=Plates, fill="firebrick")) + 
+	geom_boxplot(outlier.colour="black", outlier.size=3) + 
+	ylim(0,80) + 
+	guides(fill=FALSE, color=FALSE) +
+	theme_bw()
+```
+ <!-- This is the boxplot chunk --> 
+ 
+
+
+
+
+
+
  
 
