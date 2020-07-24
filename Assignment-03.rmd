@@ -65,6 +65,21 @@ ggplot(data, aes(x=Genotype, y=Plates, fill="firebrick")) +
 	theme_bw()
 ```
  <!-- This is the boxplot chunk --> 
+Figure 3 shows a boxplot of the lateral plates per genotype. The Mm genotype has the largest range, ranging from 40 to 60 spines. The MM genotype has the largest number of plates above 60. The mm genotype has the smallest amount of plates. The following table will show an ANOVA analysis of the data.  
+```{r}
+knitr::kable(anova(lm(Plates ~ Genotype, data = data)),
+			 digits = 3, 
+			 format = "html", 
+			 caption = "__Table 2__: One-way ANOVA analysis of lateral plate numbers by genotype.",
+			 table.attr = "style='width:70%;'") %>% kable_styling(position = "center")
+```
+ <!-- This chunk is for the anova analysis -->  
+
+## Conclusions  
+Based on the analyses performed i can conclude that the dominant genotype has the range and overall the largest number of lateral plates. The Mm genotype in particular ranges from 40 to 60 plates. While the MM has a short range of plates but a high number. The recessive genotype has the smallest amount of lateral plates.  
+
+## Reference  
+Colosimo, P. F., Peichel, C. L., Nereng, K., Blackman, B. K., Shapiro, M. D., Schluter, D., & Kingsley, D. M. (2004). _The Genetic Architecture of Parallel Armor Plate Reduction in Threespine Sticklebacks_. PLoS Biology, _2_(5),e109. https://doi.org/10.1371/journal.pbio.0020109
  
 
 
