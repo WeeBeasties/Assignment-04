@@ -28,7 +28,7 @@ names(data) <- c("Genotype", "Plates")
 ##  Three-spined sticklebacks
 *Gasterosteus aculeatus* is a species of small fish that lives in coastal and freshwater bodies of the Northern Hemisphere. They are commonly 3 to 4 inches when fully grown, and are olive or silver-green colored. Their eyes have four different photoreceptor cells, allowing them to see ultraviolet light. Perhaps most importantly, they do not have scales, and are instead protected by bony plates on their backs, sides, and bellies.
 
-```## STEP 8 !!!!!!!!!!!!!{r fig.cap = "**Figure 1:** Lateral plate morphology of the three-spine stickleback. © Windsor E. Aguirre" fig.width = 4, fig.align = "center"}
+```{r fig.cap = "**Figure 1:** Lateral plate morphology of the three-spine stickleback. © Windsor E. Aguirre", fig.width = 4, fig.align = "center", echo = FALSE}
 # Plate morphology image
 knitr::include_graphics("https://www.researchgate.net/profile/Windsor_Aguirre/publication/285915049/figure/fig2/AS:318190618988545@1452873963743/Lateral-plate-morphs-of-Gasterosteus-aculeatus-A-low-B-partial-C-complete-From_W640.jpg")
 ```
