@@ -1,0 +1,99 @@
+---
+title: "Assignment-03"
+author: "Monica Pittiglio"
+date: "`r format(Sys.time(), '%B %d, %Y')`"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+## Loaded tidyverse, lattice, and kableExtra
+library(tidyverse)
+library(lattice)
+library(kableExtra)
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+```{css, echo = FALSE}
+caption {
+      color: black;
+}
+```
+
+```{r, echo = FALSE}
+# Pulled data from online source
+data <- read_csv("https://www.zoology.ubc.ca/~whitlock/ABD/teaching/datasets/03/03e3SticklebackPlates.csv")
+names(data) <- c("Genotype", "Plates")
+```
+
+##  Three-spined sticklebacks
+*Gasterosteus aculeatus* is a species of small fish that lives in coastal and freshwater bodies of the Northern Hemisphere. They are commonly 3 to 4 inches when fully grown, and are olive or silver-green colored. Their eyes have four different photoreceptor cells, allowing them to see ultraviolet light. Perhaps most importantly, they do not have scales, and are instead protected by bony plates on their backs, sides, and bellies.
+
+```## STEP 8 !!!!!!!!!!!!!{r fig.cap = "**Figure 1:** Lateral plate morphology of the three-spine stickleback. © Windsor E. Aguirre" fig.width = 4, fig.align = "center"}
+# Plate morphology image
+knitr::include_graphics("https://www.researchgate.net/profile/Windsor_Aguirre/publication/285915049/figure/fig2/AS:318190618988545@1452873963743/Lateral-plate-morphs-of-Gasterosteus-aculeatus-A-low-B-partial-C-complete-From_W640.jpg")
+```
+
+## Hardy Weinberg conditions
+The Hardy Weinberg Law of Genetic Equilibrium states that allele and genotype frequency will remain constant across generations if the population is in genetic equilibrium. Five conditions are required in order to reach and maintain this equilibrium:
+
+1. No immigration or emigration
+2. Random mating
+3. A large breeding population
+4. No change in allelic frequency due to mutation
+5. No natural selection
+
+The Hardy Weinberg equation is $p^{2} + 2pq + q^{2} = 1$
+
+Three-spined sticklebacks have recently become organisms of interest for evolutionary biologists and geneticists studying adaption to new environments. The data in this report compares the genotype and number of plates in 245 individual three-spined sticklebacks.
+
+## Data analyses
+```{r histogram, fig.align = "center", fig.cap = "**Figure 2**: Frequency distribution of lateral plate counts by genotype", echo = FALSE}
+# Histogram of lateral plate counts by genotype
+histogram(~ Plates | Genotype, 
+		  data = data, 
+		  breaks = seq(0,70,by=2),
+		  layout = c(1, 3), 
+		  col = "firebrick")
+		  ## histogram of lateral plate counts by genotype
+```
+
+MM and Mm genotypes skew left, while the mm genotype skews right. Additionally, the heterozygous genotypes are much more uniform in distribution than the homozygous genotype.
+
+```{r, echo = FALSE}
+# Table of statistics for lateral plate counts by genotype
+knitr::kable(data %>% group_by(Genotype) %>% summarize(N = n(), 
+			 			  Mean = mean(Plates), 
+			 			  Median = median(Plates), 
+			 			  StdDev = sd(Plates)), 
+			 align = c('l','c','c','c','c'), 
+			 digits = 2,
+			 format = "html", 
+			 caption = "**Table 1**: Summary of lateral plate numbers by genotype",
+			 table.attr = "style='width:70%;'") %>% kable_styling(position = "center")
+```
+
+```{r barplot, fig.align = "center", fig.cap = "**Figure 3**: Number of lateral plates by genotype", echo = FALSE}
+# Barplot of lateral plate counts by genotype
+ggplot(data, aes(x=Genotype, y=Plates, fill="firebrick")) + 
+	geom_boxplot(outlier.colour="black", outlier.size=3) + 
+	ylim(0,80) + 
+	guides(fill=FALSE, color=FALSE) +
+	theme_bw()
+```
+
+Fish with the homogygous genotype have a much larger range of lateral plates than do the heterozygous genotypes, but an obvious pattern reveals that mm fish have far fewer plates than Mm, and MM fish have more.
+
+```{r anova, fig.align = "center", echo = FALSE}
+# ANOVA analysis of lateral plate counts by genotype
+knitr::kable(anova(lm(Plates ~ Genotype, data = data)),
+			 digits = 3, 
+			 format = "html", 
+			 caption = "**Table 2**: One-way ANOVA analysis of lateral plate numbers by genotype",
+			 table.attr = "style='width:70%;'") %>% kable_styling(position = "center")
+```
+
+## Conclusions
+Three-spined sticklebacks with the genotype MM had the most average lateral plates at about 63. However, this genotype also had outliars that more closely resembled the data found in Mm. Genotype Mm provided the largest standard deviation of plates but tended towards the higher end, with an average of 50 lateral plates. Trailing far behind was genotype mm, with an average of 12 lateral plates.
+
+## Reference
+Colosimo, P. F., Peichel, C. L., Nereng, K., Blackman, B. K., Shapiro, M. D., Schluter, D., & Kingsley, D. M. (2004). The Genetic Architecture of Parallel Armor Plate Reduction in Threespine Sticklebacks. *PLoS Biology*, *2*(5), e109. https://doi.org/10.1371/journal.pbio.0020109
