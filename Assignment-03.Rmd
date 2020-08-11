@@ -1,0 +1,94 @@
+---
+title: "BIOL390: Assignment 2"
+author: "Vanessa Galici"
+date: "`r format(Sys.time(), '%B %d, %Y')`"
+output:
+  html_document: default
+  pdf_document: default
+---
+```{r}
+library(tidyverse)
+library(lattice)
+library(kableExtra)
+knitr::opts_chunk$set(echo = FALSE)
+```
+
+```{css, echo = FALSE}
+caption {
+      color: black;
+    }
+```
+
+```{r} 
+data <- read_csv("https://www.zoology.ubc.ca/~whitlock/ABD/teaching/datasets/03/03e3SticklebackPlates.csv")
+names(data) <- c("Genotype", "Plates")
+```
+
+## Three-spined sticklebacks
+
+ The Evolutionary history of Gasterosteus aculeatus or three-spined sticklebacks allows us to observe and "almost" pinpoint the genetic changes in the bony armour. At least six different genetic models have been proposed using examples from studies such as crossing a completely  plated marine fish with a low plated fish to determine the genetic loci that control plate phenotypes, as well as determining the specific markers that are closely related to chromosome regions that control characteristics of plates such as size, shape and color. 
+
+```{r} 
+knitr::include_graphics("https://www.researchgate.net/profile/Windsor_Aguirre/publication/285915049/figure/fig2/AS:318190618988545@1452873963743/Lateral-plate-morphs-of-Gasterosteus-aculeatus-A-low-B-partial-C-complete-From_W640.jpg")
+```
+
+**Figure 1:** Lateral plate morphology of the three-spine stickleback. © Windsor E. Aguirre
+
+## Hardy Weinberg conditions
+
+Hardy Weinberg equation: $p^{2}+2pq+q^{2}=1$
+
+## Data analyses
+
+```{r histogram}
+histogram(~ Plates | Genotype, 
+		  data = data, 
+		  breaks = seq(0,70,by=2),
+		  layout = c(1, 3), 
+		  col = "firebrick")
+```
+
+**Figure 2:** Frequency distribution of lateral plate counts by genotype.
+
+The histogram above shows the distribution of the lateral plates among all three genome types.
+
+```{r}
+knitr::kable(data %>% group_by(Genotype) %>% summarize(N = n(), 
+			 			  Mean = mean(Plates), 
+			 			  Median = median(Plates), 
+			 			  StdDev = sd(Plates)), 
+			 align = c('l','c','c','c','c'), 
+			 digits = 2,
+			 format = "html", 
+			 caption = "**Table 1:** Summary of lateral plate numbers by genotype.",
+			 table.attr = "style='width:70%;'") %>% kable_styling(position = "center")
+```
+
+```{r}
+ggplot(data, aes(x=Genotype, y=Plates, fill="firebrick")) + 
+	geom_boxplot(outlier.colour="black", outlier.size=3) + 
+	ylim(0,80) + 
+	guides(fill=FALSE, color=FALSE) +
+	theme_bw()
+```
+
+**Figure 3:** Number of lateral plates by genotype
+
+The box plot above describes the distribution further.Notice how the combination genome has a wider spread of plates and this is further supported by the table shown below.
+
+```{r}
+knitr::kable(anova(lm(Plates ~ Genotype, data = data)),
+			 digits = 3, 
+			 format = "html", 
+			 caption = "**Table 2:** One-way ANOVA analysis of lateral plate numbers by genotype.",
+			 table.attr = "style='width:70%;'") %>% kable_styling(position = "center")
+```
+
+
+## Conclusions
+
+Based on the data provided, along with the Hardy-Weinberg equation, heterozygous individuals have a larger distribution of the lateral plates whereas both homozygous dominant and recessive individuals have a smaller distribution of lateral plate numbers. Thus, proving that frequency distribution of genotype directly correlates to the genetic change in lateral plates of three spined sticklebacks.
+
+## Reference
+
+Colosimo, P. F., Peichel, C. L., Nereng, K., Blackman, B. K., Shapiro, M. D., Schluter, D., & Kingsley, D. M. (2004). *The Genetic Architecture of Parallel Armor Plate Reduction in Threespine Sticklebacks.* PLoS Biology, 2(5), *e109.* https://doi.org/10.1371/journal.pbio.0020109
