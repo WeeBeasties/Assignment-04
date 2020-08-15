@@ -58,7 +58,7 @@ knitr::kable(data %>% group_by(Genotype) %>% summarize(N = n(),
 			 align = c('l','c','c','c','c'), 
 			 digits = 2,
 			 format = "html", 
-			 caption = "PUT YOUR CAPTION HERE",
+			 caption = "Measurements By Genotypes",
 			 table.attr = "style='width:70%;'") %>% kable_styling(position = "center")
 ```
 
@@ -69,8 +69,20 @@ ggplot(data, aes(x=Genotype, y=Plates, fill="firebrick")) +
 	guides(fill=FALSE, color=FALSE) +
 	theme_bw()
 ```
+```{r}
+knitr::kable(anova(lm(Plates ~ Genotype, data = data)),
+			 digits = 3, 
+			 format = "html", 
+			 caption = "Genotype Vs.Residuals",
+			 table.attr = "style='width:70%;'") %>% 
+			 kable_styling(position = "center")
+```
 
 
 
 
 Note that the `echo = FALSE` parameter was added to the code chunk to prevent printing of the R code that generated the plot.
+
+
+
+Colosimo, P. F., Peichel, C. L., Nereng, K., Blackman, B. K., Shapiro, M. D., Schluter, D., & Kingsley, D. M. (2004). The Genetic Architecture of Parallel Armor Plate Reduction in Threespine Sticklebacks. PLoS Biology, 2(5), e109. https://doi.org/10.1371/journal.pbio.0020109
